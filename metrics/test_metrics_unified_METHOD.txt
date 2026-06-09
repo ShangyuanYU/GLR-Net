@@ -1,0 +1,21 @@
+V17 Test 集统一指标口径（metrics/recalc_test_metrics_unified.py）
+
+GT: DataSet6/Test/mask/{lake_id}.npy, 像素 >0.5 为水体
+
+预测: stage2.ckpt, patch logits 重叠区平均后 sigmoid>0.5（拼回整湖）
+
+hard IOU: 全部 Test 湖前景像素合并后计算 IoU (micro)
+Lake-level IOU: 每湖 hard IoU 的算术平均 (macro)
+
+Boundary F1: metrics/VERSION22_Stage1Only/metrics.py, tolerance=3px; 逐湖 F1 再平均
+
+BDE (Mean/Median/P90): boundary_error_histogram.boundary_error_pixels
+  - 3x3 腐蚀边界 + 双向距离变换
+  - 全 Test 集边界误差像素拼接后统计
+
+Global hard Dice: metrics/recalc_global_hard_dice_test.py
+  - 调用 evaluate_stage2_test_metrics.py
+  - 28 湖 hard mask 全局 micro Dice @0.5
+
+训练阶段验证指标（见 train.py / logs/stage2_val_iou.txt）:
+  - 验证集 patch 拼湖 soft IoU（用于 early stopping，非论文 Test 表口径）
