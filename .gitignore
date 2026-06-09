@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 训练/预测输出
+logs/
+predict_stage2_output/
+metrics/output/
+checkpoints/
+
+# 本地数据（体积过大，不纳入代码仓库）
+../DataSet6/
+../Lake_sentinel2_GEE/
+../Lake_Mask/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+._*
+Thumbs.db
