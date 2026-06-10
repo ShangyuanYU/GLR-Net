@@ -1,121 +1,169 @@
-================================================================================
-SHARE/CODE — 湖泊水体分割模型（Global + Patch，Stage1/Stage2）
-================================================================================
+# GLR-Net
 
-目录结构
---------
-  train.py                      Stage1/Stage2 训练
-  predict_stage2_full.py        Stage2 全数据集预测（JPG + GeoTIFF）
-  evaluate_stage2_test_metrics.py   Test 集汇总指标（hard IoU / Dice 等）
-  evaluate_test_lake_table.py   Test 集逐湖指标表（IoU、BF1@3px、BDE）
-  tiff_to_vector.py             预测 GeoTIFF 转 Shapefile
-  count_stage2_params_flops.py  Stage2 参数量与 FLOPs
-  paths_config.py               数据路径（发布前请修改）
-  preprocess/
-    build_dataset_from_tiff.py  TIFF→NPY、随机划分 Train/Val/Test、计算 mean/std
-  ModelStructure_CUDA.py        模型结构（依赖 mmsegmentation）
-  MyDataLoader_numpy0127.py     数据加载与 patch 采样
-  ModelLoss.py / elvate.py      损失与 soft IoU 指标
-  utils/                        训练辅助与增强
-  checkpoints/                  stage1.ckpt, stage2.ckpt
-  metrics/
-    recalc_test_metrics_unified.py   论文口径 Test 指标（patch logits 拼湖）
-    recalc_global_hard_dice_test.py  global hard Dice
-    boundary_error_histogram.py      BDE 计算与可选 CDF 图
-    VERSION22_Stage1Only/metrics.py  Boundary F1 / BDE 实现
-    test_metrics_unified_METHOD.txt  指标定义说明
+湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
-环境依赖
---------
+关联论文已经接收，正式论文引用和 DOI 将在出版后补充。
+
+## 仓库结构
+
+以下是 GitHub 仓库中实际包含的主要文件：
+
+```text
+GLR-Net/
+├── train.py                         # Stage1/Stage2 训练
+├── predict_stage2_full.py           # Stage2 整湖预测（JPG + GeoTIFF）
+├── evaluate_stage2_test_metrics.py  # Test 集汇总指标
+├── evaluate_test_lake_table.py      # Test 集逐湖指标表
+├── count_stage2_params_flops.py     # Stage2 参数量与 FLOPs
+├── tiff_to_vector.py                # 预测 GeoTIFF 转 Shapefile
+├── paths_config.py                  # 数据路径配置
+├── ModelStructure_CUDA.py           # 模型结构
+├── MyDataLoader_numpy0127.py        # 数据加载与 patch 采样
+├── ModelLoss.py                     # 损失函数
+├── elvate.py                        # soft IoU 指标
+├── preprocess/
+│   └── build_dataset_from_tiff.py   # TIFF 转 NPY 并划分数据集
+├── metrics/
+│   ├── recalc_test_metrics_unified.py
+│   ├── recalc_global_hard_dice_test.py
+│   ├── boundary_error_histogram.py
+│   └── VERSION22_Stage1Only/
+│       └── metrics.py
+├── utils/
+├── requirements.txt
+└── requirements-lock-windows.txt
+```
+
+## 数据与模型权重
+
+数据集和模型权重当前未上传至 GitHub。
+
+- `checkpoints/stage1.ckpt` 和 `checkpoints/stage2.ckpt` 仅保存在作者本地。
+- `Lake_sentinel2_GEE/`、`Lake_Mask/` 和生成的 `DataSet6/` 不属于本 GitHub 仓库。
+- 模型权重和数据集的公开下载地址将在确认许可与发布方式后补充。
+
+代码默认使用以下本地目录布局：
+
+```text
+SHARE/
+├── CODE/                  # 本仓库，本地目录名可改为 GLR-Net
+├── Lake_sentinel2_GEE/    # Sentinel-2 GeoTIFF
+├── Lake_Mask/             # 水体 mask GeoTIFF
+└── DataSet6/              # 预处理脚本生成的 NPY 数据集
+```
+
+如使用其他目录布局，请修改 `paths_config.py`。
+
+## 环境依赖
+
 论文实验使用并验证的环境：
 
-  - Windows
-  - Python 3.12.7
-  - CUDA 12.1
-  - PyTorch 2.5.1+cu121
-  - torchvision 0.20.1+cu121
-  - mmcv 2.1.0
-  - mmengine 0.10.7
-  - mmsegmentation 1.2.2
+- Windows
+- Python 3.12.7
+- CUDA 12.1
+- PyTorch 2.5.1+cu121
+- torchvision 0.20.1+cu121
+- mmcv 2.1.0
+- mmengine 0.10.7
+- mmsegmentation 1.2.2
 
 建议先创建虚拟环境，再单独安装 CUDA 12.1 对应的 PyTorch：
 
-    python -m venv .venv
-    .venv\Scripts\activate
-    python -m pip install --upgrade pip
-    pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121
-    pip install -r requirements.txt
+```bat
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt
+```
 
 `requirements.txt` 记录项目直接依赖及验证版本。完整实验环境快照见
 `requirements-lock-windows.txt`；该文件包含 Jupyter 和间接依赖，主要用于精确复现，
 不建议作为常规安装入口。
 
-路径配置
---------
-  编辑 paths_config.py 中的 DATASET_ROOT、ORIG_TIFF_ROOT。
-  从 SHARE TIFF 构建数据集后，将 DATASET_ROOT 设为 ../DataSet6（即 SHARE_DATASET_ROOT）。
+## 数据预处理
 
-数据预处理（TIFF → NPY）
--------------------------
-  输入:
-    ../Lake_sentinel2_GEE/{lake_id}.tif   4 波段 Sentinel-2（DN）
-    ../Lake_Mask/{lake_id}.tif            水体 mask（0/1）
+输入文件：
 
-  运行:
-    python preprocess/build_dataset_from_tiff.py
+```text
+Lake_sentinel2_GEE/{lake_id}.tif  # 4 波段 Sentinel-2 DN
+Lake_Mask/{lake_id}.tif           # 水体 mask（0/1）
+```
 
-  输出 ../DataSet6/:
-    Train|Val|Test/image|mask/{lake_id}.npy
-    Train/train_band_mean_std.txt         训练归一化 mean/std
-    dataset_split_manifest.json           划分清单（默认 seed=42, 7:1.5:1.5）
+运行：
 
-  可选: --output-dir --seed --train-ratio --val-ratio --skip-existing
+```bash
+python preprocess/build_dataset_from_tiff.py
+```
 
-典型流程
---------
-  0) 构建 NPY 数据集（首次使用 SHARE 数据）:
-       python preprocess/build_dataset_from_tiff.py
+默认输出至 `DataSet6/`：
 
-  1) 训练（可选，已附带权重）：
-       python train.py
+```text
+DataSet6/
+├── Train/
+├── Val/
+├── Test/
+└── dataset_split_manifest.json
+```
 
-  2) Test 集预测：
-       python predict_stage2_full.py
-     输出：predict_stage2_output/{train,val,test}/tif/{lake_id}.tif
+其中 `Train/train_band_mean_std.txt` 保存训练集归一化统计量。默认随机种子为 `42`，
+Train/Val/Test 比例为 `7:1.5:1.5`。
 
-  3) Test 汇总评估：
-       python evaluate_stage2_test_metrics.py
-     输出：logs/stage2_test_eval_metrics.txt
+## 使用流程
 
-  4) 论文口径统一指标（patch logits 拼湖 + Test/mask GT）：
-       python metrics/recalc_test_metrics_unified.py
-     输出：metrics/output/test_metrics_unified_v17.csv
+1. 构建 NPY 数据集：
 
-  5) 逐湖指标表：
-       python evaluate_test_lake_table.py
-     输出：logs/stage2_test_lake_table.csv
+   ```bash
+   python preprocess/build_dataset_from_tiff.py
+   ```
 
-指标口径（详见 metrics/test_metrics_unified_METHOD.txt）
---------
-  - hard IoU：全 Test 像素 micro 池化
-  - Lake-level IoU：逐湖 hard IoU 算术平均
-  - Boundary F1@3px：逐湖计算后平均（3×3 腐蚀边界，tolerance=3px）
-  - BDE：GT/预测边界双向距离变换，全湖边界像元拼接后统计 mean/median/P90
+2. 训练 Stage1 和 Stage2：
 
-关联数据（SHARE 包内）
---------
-  Lake_sentinel2_GEE/   179 湖 Sentinel-2 影像 GeoTIFF
-  Lake_Mask/            179 湖 mask GeoTIFF
-  DataSet6/             运行预处理后生成的 NPY 训练集（可选）
+   ```bash
+   python train.py
+   ```
 
-引用
---------
-如果本项目对您的研究有帮助，请引用本仓库。关联论文已经接收，正式论文引用和 DOI
-将在出版后补充。当前引用元数据见 CITATION.cff。
+3. 执行 Test 集预测：
 
-许可证
---------
-本仓库中的源代码采用 MIT License，详见 LICENSE。
+   ```bash
+   python predict_stage2_full.py
+   ```
+
+4. 计算 Test 集汇总指标：
+
+   ```bash
+   python evaluate_stage2_test_metrics.py
+   ```
+
+5. 计算论文口径统一指标：
+
+   ```bash
+   python metrics/recalc_test_metrics_unified.py
+   ```
+
+6. 生成逐湖指标表：
+
+   ```bash
+   python evaluate_test_lake_table.py
+   ```
+
+## 指标定义
+
+- **Hard IoU**：合并全部 Test 集前景像素后计算 micro IoU。
+- **Lake-level IoU**：逐湖 hard IoU 的算术平均。
+- **Boundary F1@3px**：逐湖计算后平均，边界容差为 3 像素。
+- **BDE**：双向边界距离误差，报告 mean、median 和 P90。
+
+详细定义见 `metrics/test_metrics_unified_METHOD.txt`。
+
+## 引用
+
+如果本项目对您的研究有帮助，请引用本仓库。正式论文引用和 DOI 将在出版后补充。
+当前软件引用元数据见 `CITATION.cff`。
+
+## 许可证
+
+本仓库中的源代码采用 [MIT License](LICENSE)。
 
 除非另有明确说明，MIT License 不自动适用于相关数据集、湖泊标注、预训练模型权重
 或第三方依赖。这些材料应遵循各自的许可和使用条款。
