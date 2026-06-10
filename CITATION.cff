@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use GLR-Net in your research, please cite this software. The associated paper citation and DOI will be added after publication."
+title: "GLR-Net"
+type: software
+authors:
+  - family-names: "Yu"
+    given-names: "Shangyuan"
+    alias: "ShangyuanYU"
+repository-code: "https://github.com/ShangyuanYU/GLR-Net"
+license: "MIT"

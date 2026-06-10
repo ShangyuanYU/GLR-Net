@@ -89,3 +89,15 @@ SHARE/CODE — 湖泊水体分割模型（Global + Patch，Stage1/Stage2）
   Lake_sentinel2_GEE/   179 湖 Sentinel-2 影像 GeoTIFF
   Lake_Mask/            179 湖 mask GeoTIFF
   DataSet6/             运行预处理后生成的 NPY 训练集（可选）
+
+引用
+--------
+如果本项目对您的研究有帮助，请引用本仓库。关联论文已经接收，正式论文引用和 DOI
+将在出版后补充。当前引用元数据见 CITATION.cff。
+
+许可证
+--------
+本仓库中的源代码采用 MIT License，详见 LICENSE。
+
+除非另有明确说明，MIT License 不自动适用于相关数据集、湖泊标注、预训练模型权重
+或第三方依赖。这些材料应遵循各自的许可和使用条款。
