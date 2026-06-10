@@ -27,10 +27,28 @@ SHARE/CODE — 湖泊水体分割模型（Global + Patch，Stage1/Stage2）
 
 环境依赖
 --------
-  Python 3.8+
-  PyTorch, torchvision, numpy, rasterio, Pillow, scipy
-  mmsegmentation（pip 安装，或将源码置于 CODE 上级目录 mmsegmentation-main/）
-  评估矢量脚本另需：fiona, shapely
+论文实验使用并验证的环境：
+
+  - Windows
+  - Python 3.12.7
+  - CUDA 12.1
+  - PyTorch 2.5.1+cu121
+  - torchvision 0.20.1+cu121
+  - mmcv 2.1.0
+  - mmengine 0.10.7
+  - mmsegmentation 1.2.2
+
+建议先创建虚拟环境，再单独安装 CUDA 12.1 对应的 PyTorch：
+
+    python -m venv .venv
+    .venv\Scripts\activate
+    python -m pip install --upgrade pip
+    pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121
+    pip install -r requirements.txt
+
+`requirements.txt` 记录项目直接依赖及验证版本。完整实验环境快照见
+`requirements-lock-windows.txt`；该文件包含 Jupyter 和间接依赖，主要用于精确复现，
+不建议作为常规安装入口。
 
 路径配置
 --------
