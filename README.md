@@ -160,7 +160,16 @@ Train/Val/Test 比例为 `7:1.5:1.5`。
 
 ## 引用
 
-如果本项目对您的研究有帮助，请引用：
+如果本项目对您的研究有帮助，请引用关联论文。
+
+MDPI 推荐引用格式：
+
+> Yu, S.; Tu, J.; Guo, Z.; He, P. A Global–Local Residual Refinement Framework
+> for Accurate Lake Boundary Delineation in Remote Sensing Imagery.
+> *Remote Sens.* **2026**, *18*, 1919.
+> https://doi.org/10.3390/rs18121919
+
+BibTeX：
 
 ```bibtex
 @article{yu2026global,
@@ -179,7 +188,8 @@ Train/Val/Test 比例为 `7:1.5:1.5`。
 论文链接：[MDPI](https://www.mdpi.com/2072-4292/18/12/1919) |
 [DOI](https://doi.org/10.3390/rs18121919)
 
-软件引用元数据见 `CITATION.cff`。
+软件引用元数据见 `CITATION.cff`。GitHub 的 **Cite this repository** 功能可基于该文件
+生成 APA、Chicago 等其他引用格式。
 
 ## 许可证
 
