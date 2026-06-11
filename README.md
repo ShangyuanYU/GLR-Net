@@ -1,5 +1,13 @@
 # GLR-Net
 
+> [!IMPORTANT]
+> **仓库状态：** 本仓库仍在持续整理中。预计于 **2026 年 6 月 30 日前** 提供完整代码、
+> 详细复现说明、预训练模型权重，以及在许可允许范围内可公开的数据。
+>
+> **Repository status:** This repository is under active preparation. The complete
+> code, detailed reproduction instructions, pretrained model weights, and datasets
+> permitted for public release are expected to be provided by **June 30, 2026**.
+
 湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
 论文：[A Global–Local Residual Refinement Framework for Accurate Lake Boundary Delineation in Remote Sensing Imagery](https://doi.org/10.3390/rs18121919)
