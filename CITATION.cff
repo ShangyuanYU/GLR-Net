@@ -1,10 +1,31 @@
 cff-version: 1.2.0
-message: "If you use GLR-Net in your research, please cite this software. The associated paper citation and DOI will be added after publication."
+message: "If you use GLR-Net in your research, please cite the associated paper."
 title: "GLR-Net"
 type: software
 authors:
   - family-names: "Yu"
     given-names: "Shangyuan"
     alias: "ShangyuanYU"
+    orcid: "https://orcid.org/0000-0001-5077-3982"
 repository-code: "https://github.com/ShangyuanYU/GLR-Net"
+url: "https://www.mdpi.com/2072-4292/18/12/1919"
 license: "MIT"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Yu"
+      given-names: "Shangyuan"
+      orcid: "https://orcid.org/0000-0001-5077-3982"
+    - family-names: "Tu"
+      given-names: "Jienan"
+    - family-names: "Guo"
+      given-names: "Zhaocheng"
+    - family-names: "He"
+      given-names: "Peng"
+  title: "A Global–Local Residual Refinement Framework for Accurate Lake Boundary Delineation in Remote Sensing Imagery"
+  journal: "Remote Sensing"
+  year: 2026
+  volume: 18
+  issue: 12
+  doi: "10.3390/rs18121919"
+  url: "https://www.mdpi.com/2072-4292/18/12/1919"

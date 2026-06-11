@@ -2,7 +2,9 @@
 
 湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
-关联论文已经接收，正式论文引用和 DOI 将在出版后补充。
+论文：[A Global–Local Residual Refinement Framework for Accurate Lake Boundary Delineation in Remote Sensing Imagery](https://doi.org/10.3390/rs18121919)
+
+发表于 *Remote Sensing*, 2026, 18(12), 1919。
 
 ## 仓库结构
 
@@ -158,8 +160,26 @@ Train/Val/Test 比例为 `7:1.5:1.5`。
 
 ## 引用
 
-如果本项目对您的研究有帮助，请引用本仓库。正式论文引用和 DOI 将在出版后补充。
-当前软件引用元数据见 `CITATION.cff`。
+如果本项目对您的研究有帮助，请引用：
+
+```bibtex
+@article{yu2026global,
+  author  = {Yu, Shangyuan and Tu, Jienan and Guo, Zhaocheng and He, Peng},
+  title   = {A Global--Local Residual Refinement Framework for Accurate Lake Boundary Delineation in Remote Sensing Imagery},
+  journal = {Remote Sensing},
+  year    = {2026},
+  volume  = {18},
+  number  = {12},
+  pages   = {1919},
+  doi     = {10.3390/rs18121919},
+  url     = {https://www.mdpi.com/2072-4292/18/12/1919}
+}
+```
+
+论文链接：[MDPI](https://www.mdpi.com/2072-4292/18/12/1919) |
+[DOI](https://doi.org/10.3390/rs18121919)
+
+软件引用元数据见 `CITATION.cff`。
 
 ## 许可证
 
