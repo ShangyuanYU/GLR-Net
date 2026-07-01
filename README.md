@@ -1,12 +1,12 @@
 # GLR-Net
 
 > [!IMPORTANT]
-> **仓库状态：** 本仓库仍在持续整理中。预计于 **2026 年 6 月 30 日前** 提供完整代码、
-> 详细复现说明、预训练模型权重，以及在许可允许范围内可公开的数据。
+> **仓库状态：** 本仓库仍在持续整理中。数据集已通过 Zenodo 公开发布；完整代码、
+> 详细复现说明和预训练模型权重将在后续更新中补充。
 >
-> **Repository status:** This repository is under active preparation. The complete
-> code, detailed reproduction instructions, pretrained model weights, and datasets
-> permitted for public release are expected to be provided by **June 30, 2026**.
+> **Repository status:** This repository is under active preparation. The dataset
+> has been released on Zenodo; the complete code, detailed reproduction instructions,
+> and pretrained model weights will be provided in subsequent updates.
 
 湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
@@ -46,11 +46,22 @@ GLR-Net/
 
 ## 数据与模型权重
 
-数据集和模型权重当前未上传至 GitHub。
+数据集已通过 Zenodo 公开发布，模型权重当前未上传至 GitHub。
 
 - `checkpoints/stage1.ckpt` 和 `checkpoints/stage2.ckpt` 仅保存在作者本地。
 - `Lake_sentinel2_GEE/`、`Lake_Mask/` 和生成的 `DataSet6/` 不属于本 GitHub 仓库。
-- 模型权重和数据集的公开下载地址将在确认许可与发布方式后补充。
+- 模型权重的公开下载地址将在后续更新中补充。
+
+公开数据集：
+
+- **Title:** Tibetan Plateau Lake Boundary Delineation Dataset
+- **Version:** v1.0
+- **DOI:** [10.5281/zenodo.20662094](https://doi.org/10.5281/zenodo.20662094)
+- **Zenodo record:** <https://zenodo.org/records/20662094>
+- **License:** CC BY 4.0
+- **Files:**
+  - `Lake_Mask.zip`，MD5: `640cd7df4d54b1ef98827e04f57f8e75`
+  - `Lake_sentinel2_GEE.zip`，MD5: `b07ce069c4b537985e60997b9b4cd607`
 
 代码默认使用以下本地目录布局：
 
@@ -199,9 +210,14 @@ BibTeX：
 软件引用元数据见 `CITATION.cff`。GitHub 的 **Cite this repository** 功能可基于该文件
 生成 APA、Chicago 等其他引用格式。
 
+数据集引用：
+
+> YU, Shangyuan. Tibetan Plateau Lake Boundary Delineation Dataset. Zenodo,
+> 2026. https://doi.org/10.5281/zenodo.20662094
+
 ## 许可证
 
 本仓库中的源代码采用 [MIT License](LICENSE)。
 
-除非另有明确说明，MIT License 不自动适用于相关数据集、湖泊标注、预训练模型权重
-或第三方依赖。这些材料应遵循各自的许可和使用条款。
+Zenodo 数据集采用 CC BY 4.0。除非另有明确说明，MIT License 不自动适用于数据集、
+湖泊标注、预训练模型权重或第三方依赖。这些材料应遵循各自的许可和使用条款。
