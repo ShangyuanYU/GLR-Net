@@ -1,12 +1,10 @@
 # GLR-Net
 
 > [!IMPORTANT]
-> **仓库状态：** 完整代码、复现说明和数据集已经公开。预训练模型权重仍在整理中，
-> 将在后续更新中补充。
+> **仓库状态：** 完整代码、复现说明和数据集已经公开。本研究未使用预训练模型参数。
 >
 > **Repository status:** The complete code, reproduction instructions, and dataset
-> are now available. The pretrained model weights are still being prepared and will
-> be provided in a subsequent update.
+> are now available. This study did not use pretrained model parameters.
 
 湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
@@ -50,13 +48,12 @@ GLR-Net/
 └── requirements-lock-windows.txt
 ```
 
-## 数据与模型权重
+## 数据集与训练检查点
 
-数据集已通过 Zenodo 公开发布，模型权重当前未上传至 GitHub。
+数据集已通过 Zenodo 公开发布。本研究未使用预训练模型参数，模型从随机初始化开始训练。
 
-- `checkpoints/stage1.ckpt` 和 `checkpoints/stage2.ckpt` 仅保存在作者本地。
+- 训练过程中生成的 `checkpoints/stage1.ckpt` 和 `checkpoints/stage2.ckpt` 未上传至 GitHub。
 - `Lake_sentinel2_GEE/`、`Lake_Mask/` 和生成的 `DataSet6/` 不属于本 GitHub 仓库。
-- 模型权重的公开下载地址将在后续更新中补充。
 
 公开数据集：
 
@@ -227,4 +224,4 @@ BibTeX：
 本仓库中的源代码采用 [MIT License](LICENSE)。
 
 Zenodo 数据集采用 CC BY 4.0。除非另有明确说明，MIT License 不自动适用于数据集、
-湖泊标注、预训练模型权重或第三方依赖。这些材料应遵循各自的许可和使用条款。
+湖泊标注、训练检查点或第三方依赖。这些材料应遵循各自的许可和使用条款。
