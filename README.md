@@ -14,6 +14,12 @@
 
 发表于 *Remote Sensing*, 2026, 18(12), 1919。
 
+本模型的详细说明和设计请参考论文。如有疑问，可在 GitHub Issues 中留言或通过邮件咨询；
+欢迎围绕湖泊边界提取、遥感语义分割和相关方向开展学术合作。
+
+For detailed model descriptions and design choices, please refer to the paper.
+Questions are welcome via GitHub Issues or email, and academic collaboration is encouraged.
+
 ## 仓库结构
 
 以下是 GitHub 仓库中实际包含的主要文件：
