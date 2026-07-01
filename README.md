@@ -63,17 +63,18 @@ GLR-Net/
   - `Lake_Mask.zip`，MD5: `640cd7df4d54b1ef98827e04f57f8e75`
   - `Lake_sentinel2_GEE.zip`，MD5: `b07ce069c4b537985e60997b9b4cd607`
 
-代码默认使用以下本地目录布局：
+GitHub 仓库中不包含 `SHARE/` 目录。下载 Zenodo 数据后，推荐在本地整理为如下目录布局：
 
 ```text
 SHARE/
-├── CODE/                  # 本仓库，本地目录名可改为 GLR-Net
+├── GLR-Net/               # 本 GitHub 仓库
 ├── Lake_sentinel2_GEE/    # Sentinel-2 GeoTIFF
 ├── Lake_Mask/             # 水体 mask GeoTIFF
 └── DataSet6/              # 预处理脚本生成的 NPY 数据集
 ```
 
-如使用其他目录布局，请修改 `paths_config.py`。
+`SHARE/` 只是本地工作目录示例，不是 GitHub 仓库的一部分。如使用其他目录布局，
+请修改 `paths_config.py`。
 
 ## 环境依赖
 
