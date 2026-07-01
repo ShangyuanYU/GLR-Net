@@ -1,12 +1,12 @@
 # GLR-Net
 
 > [!IMPORTANT]
-> **仓库状态：** 本仓库仍在持续整理中。数据集已通过 Zenodo 公开发布；完整代码、
-> 详细复现说明和预训练模型权重将在后续更新中补充。
+> **仓库状态：** 完整代码、复现说明和数据集已经公开。预训练模型权重仍在整理中，
+> 将在后续更新中补充。
 >
-> **Repository status:** This repository is under active preparation. The dataset
-> has been released on Zenodo; the complete code, detailed reproduction instructions,
-> and pretrained model weights will be provided in subsequent updates.
+> **Repository status:** The complete code, reproduction instructions, and dataset
+> are now available. The pretrained model weights are still being prepared and will
+> be provided in a subsequent update.
 
 湖泊水体分割模型，采用 Global + Patch 两阶段训练与预测流程。
 
